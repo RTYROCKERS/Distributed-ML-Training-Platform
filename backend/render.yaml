@@ -1,0 +1,20 @@
+# Render Blueprint -- deploy with "New +" -> "Blueprint" and point it at
+# this repo with backend/ as the root, or paste this into a manual Web
+# Service's settings. See ../README.md for the full walkthrough.
+services:
+  - type: web
+    name: distributed-ml-platform-backend-render
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: REDIS_URL
+        sync: false # paste your Upstash REDIS_URL here
+      - key: NODE_NAME
+        value: render
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: JOB_TTL_SECONDS
+        value: "86400"
+    healthCheckPath: /health

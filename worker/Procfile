@@ -1,0 +1,1 @@
+worker: celery -A train:celery_app worker --loglevel=info --concurrency=2

@@ -1,0 +1,17 @@
+# Optional: Render also supports a "Background Worker" service type, so you
+# can run a Celery worker here too if you want workers on both platforms
+# (they'll happily share the task queue with any Railway workers -- see
+# README "Scaling workers"). Not required: one worker anywhere that can
+# reach the shared Redis is enough to process jobs from both API nodes.
+services:
+  - type: worker
+    name: distributed-ml-platform-worker-render
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: REDIS_URL
+        sync: false # same Upstash REDIS_URL as the backend services
+      - key: JOB_TTL_SECONDS
+        value: "86400"
